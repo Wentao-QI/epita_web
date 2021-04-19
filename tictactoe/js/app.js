@@ -9,11 +9,12 @@ let b3 = document.querySelector('.b3');
 let c1 = document.querySelector('.c1');
 let c2 = document.querySelector('.c2');
 let c3 = document.querySelector('.c3');
+let win = 0;
 
 cols.forEach((col) => {
     col.onclick = (e) => {
         //checked if the player can click on the cell
-        if(e.target.innerHTML == ""){
+        if(e.target.innerHTML == "" && win == 0){
             //put the symbol in the col
             e.target.innerHTML = document.querySelector('.player'+current_player+'_play').innerHTML;
             
@@ -22,32 +23,42 @@ cols.forEach((col) => {
             //check the win(horizontal)
             if(a1.innerHTML != "" && a1.innerHTML == a2.innerHTML && a1.innerHTML == a3.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
             if(b1.innerHTML != "" && b1.innerHTML == b2.innerHTML && b1.innerHTML == b3.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
             if(c1.innerHTML != "" && c1.innerHTML == c2.innerHTML && c1.innerHTML == c3.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
 
             //check the win(vertical)
             if(a1.innerHTML != "" && a1.innerHTML == b1.innerHTML && a1.innerHTML == c1.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
             if(a2.innerHTML != "" && a2.innerHTML == b2.innerHTML && a2.innerHTML == c2.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
             if(a3.innerHTML != "" && a3.innerHTML == b3.innerHTML && a3.innerHTML == c3.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
 
             //check the win(diagonal)
             if(a1.innerHTML != "" && a1.innerHTML == b2.innerHTML && a1.innerHTML == c3.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
             if(a3.innerHTML != "" && a3.innerHTML == b2.innerHTML && a3.innerHTML == c1.innerHTML){
                 alert("Player "+current_player+" win the game !");
+                win=1;
             }
+
+
             
 
 
@@ -72,6 +83,7 @@ cols.forEach((col) => {
             alert("The box is already filled in.");
         }
 
+        
 
 
     }
