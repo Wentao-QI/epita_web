@@ -44,7 +44,7 @@ cols.forEach((col) => {
 					// alert(document.querySelector('.player'+current_player+'_name').innerHTML + " win the game !");
 					showMsg(document.querySelector(
 						'.player'+current_player+'_name').innerHTML + " win the game !<br />" +
-						'Do you want to play again ? <a href="">Clik here !</a>'
+						'<a href="">Replay</a>'
 					);
 
 					// Here we manage the scrore with localstorage
@@ -67,11 +67,11 @@ cols.forEach((col) => {
 				}
 			} else {
 				// When a player play in a not empty cell
-				showMsg('You can play here someone alreay play there !');
+				showMsg('The box is already filled in, try another one !');
 			}
 		} else {
 			// When the game is ended
-			showMsg('The game is over !');
+			showMsg('The game is over !<br />'+'<a href="">Replay</a>');
 		}
 	}
 });
