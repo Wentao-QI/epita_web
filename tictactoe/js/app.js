@@ -1,5 +1,5 @@
+// Define all the elements
 let cols = document.querySelectorAll(".col");
-let current_player = 1;
 let a1 = document.querySelector('.a1');
 let a2 = document.querySelector('.a2');
 let a3 = document.querySelector('.a3');
@@ -9,83 +9,69 @@ let b3 = document.querySelector('.b3');
 let c1 = document.querySelector('.c1');
 let c2 = document.querySelector('.c2');
 let c3 = document.querySelector('.c3');
-let win = 0;
+
+// Set the scrore from localstorage
+if (localStorage.getItem('scrore_1') == null) {
+	document.querySelector('.player1_score').innerHTML = 0;
+	localStorage.setItem('scrore_1', 0);
+	
+}
+if (localStorage.getItem('scrore_2') == null) {
+	document.querySelector('.player2_score').innerHTML = 0;
+	localStorage.setItem('scrore_2', 0);
+}
+
+document.querySelector('.player1_score').innerHTML = localStorage.getItem('scrore_1');
+document.querySelector('.player2_score').innerHTML = localStorage.getItem('scrore_2');
+
+let current_player = 1;
+let game_win = false;
 
 cols.forEach((col) => {
-    col.onclick = (e) => {
-        //checked if the player can click on the cell
-        if(e.target.innerHTML == "" && win == 0){
-            //put the symbol in the col
-            e.target.innerHTML = document.querySelector('.player'+current_player+'_play').innerHTML;
-            
+	col.onclick = (e) => {
+		// on efface les messages
+		clearMsg();
 
-            
-            //check the win(horizontal)
-            if(a1.innerHTML != "" && a1.innerHTML == a2.innerHTML && a1.innerHTML == a3.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
-            if(b1.innerHTML != "" && b1.innerHTML == b2.innerHTML && b1.innerHTML == b3.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
-            if(c1.innerHTML != "" && c1.innerHTML == c2.innerHTML && c1.innerHTML == c3.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
+		// Checked if the player can click on the cell
+		if (!game_win) {
+			if (e.target.innerHTML == "") {
+				// Put the symbol in the col
+				e.target.innerHTML = document.querySelector('.player'+current_player+'_play').innerHTML;
 
-            //check the win(vertical)
-            if(a1.innerHTML != "" && a1.innerHTML == b1.innerHTML && a1.innerHTML == c1.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
-            if(a2.innerHTML != "" && a2.innerHTML == b2.innerHTML && a2.innerHTML == c2.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
-            if(a3.innerHTML != "" && a3.innerHTML == b3.innerHTML && a3.innerHTML == c3.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
+				game_win = checkGame();
 
-            //check the win(diagonal)
-            if(a1.innerHTML != "" && a1.innerHTML == b2.innerHTML && a1.innerHTML == c3.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
-            if(a3.innerHTML != "" && a3.innerHTML == b2.innerHTML && a3.innerHTML == c1.innerHTML){
-                alert("Player "+current_player+" win the game !");
-                win=1;
-            }
+				if (game_win) {
+					// alert(document.querySelector('.player'+current_player+'_name').innerHTML + " win the game !");
+					showMsg(document.querySelector(
+						'.player'+current_player+'_name').innerHTML + " win the game !<br />" +
+						'Do you want to play again ? <a href="">Clik here !</a>'
+					);
 
+					// Here we manage the scrore with localstorage
+					localStorage.setItem('scrore_'+current_player, parseInt(localStorage.getItem('scrore_'+current_player)) + 1);
 
-            
+					document.querySelector('.player'+current_player+'_score').innerHTML = localStorage.getItem('scrore_'+current_player);
+				} else {
+					// remove the active class from the current_player
+					document.querySelector(".player"+current_player).classList.remove("active");
 
+					// Switch the current_player after playing
+					if (current_player == 1) {
+						current_player = 2;
+					} else {
+						current_player = 1;
+					}
 
-
-
-
-            document.querySelector(".player"+current_player).classList.remove("active");
-            //switch the current_player after playing
-            if(current_player == 1){
-                current_player=2;
-
-            }else{
-                current_player=1;
-            }
-            
-            document.querySelector(".player"+current_player).classList.add("active");
-
-           
-        
-        }else{
-            //when a player play in a not empty box
-            alert("The box is already filled in.");
-        }
-
-        
-
-
-    }
-    
+					// Add the active class to current_player
+					document.querySelector(".player"+current_player).classList.add("active");
+				}
+			} else {
+				// When a player play in a not empty cell
+				showMsg('You can play here someone alreay play there !');
+			}
+		} else {
+			// When the game is ended
+			showMsg('The game is over !');
+		}
+	}
 });
